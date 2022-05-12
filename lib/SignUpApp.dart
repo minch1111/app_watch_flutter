@@ -1,4 +1,8 @@
+// ignore_for_file: file_names
+
+import 'package:example_flutter/LoginApp.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SignUpApp extends StatefulWidget {
   const SignUpApp({Key? key}) : super(key: key);
@@ -25,7 +29,7 @@ class _SignUpAppState extends State<SignUpApp> {
                   height: 0,
                 ),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     height: 80,
                     width: 80,
                     child: Image.asset('assets/logoOfficial.png',
@@ -215,7 +219,9 @@ class _SignUpAppState extends State<SignUpApp> {
                 left: 0,
                 child: Center(
                     child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(const LoginApp());
+                  },
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 25, 0),
                     height: 60,

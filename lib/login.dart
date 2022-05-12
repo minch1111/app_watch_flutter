@@ -9,7 +9,6 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-
 class _LoginScreenState extends State<LoginScreen> {
   final username = TextEditingController();
   final password = TextEditingController();
@@ -21,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-             title: const Text("Thông báo"),
+            title: const Text("Thông báo"),
             content: Text('Username: $strUsername password $strPassword'),
           );
         });
@@ -31,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text("My App")),
+      appBar: AppBar(title: const Text("My App")),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
@@ -72,9 +71,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 pressLogin();
               },
             ),
-            Container(
-              child: const Text('facebook.com'),
-
+            const SizedBox(
+              child: Text('facebook.com'),
             )
           ],
         ),

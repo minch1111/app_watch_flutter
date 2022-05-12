@@ -1,4 +1,9 @@
+// ignore_for_file: file_names
+
+import 'package:example_flutter/SignUpApp.dart';
+import 'package:example_flutter/pages/splash/splash_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginApp extends StatefulWidget {
   const LoginApp({Key? key}) : super(key: key);
@@ -83,29 +88,29 @@ class _LoginAppState extends State<LoginApp> {
                     ),
                   ),
                   Container(
-                      margin: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: const TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 3, color: Colors.black)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 4,
-                                  color: Color.fromARGB(255, 0, 0, 0))),
-                          fillColor: Colors.white30,
-                          filled: true,
-                          hintText: "Nhập mật khẩu",
-                          labelText: "",
-                        ),
-                      )),
+                    margin: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: const TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 3, color: Colors.black)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 4, color: Color.fromARGB(255, 0, 0, 0))),
+                        fillColor: Colors.white30,
+                        filled: true,
+                        hintText: "Nhập mật khẩu",
+                        labelText: "",
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
                   Center(
-                      child: Column(children: [
-                    DecoratedBox(
+                    child: Column(children: [
+                      DecoratedBox(
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                               begin: Alignment.topLeft,
@@ -119,31 +124,49 @@ class _LoginAppState extends State<LoginApp> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              // shadowColor: Colors.transparent,
-                              //make color or elevated button transparent
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.transparent,
+                            // shadowColor: Colors.transparent,
+                            //make color or elevated button transparent
+                          ),
+                          onPressed: () {},
+                          child: const Padding(
+                            padding: EdgeInsets.only(
+                              top: 18,
+                              bottom: 18,
                             ),
-                            onPressed: () {},
-                            child: const Padding(
-                              padding: EdgeInsets.only(
-                                top: 18,
-                                bottom: 18,
-                              ),
-                              child: Text(
-                                "Đăng nhập",
-                                style: TextStyle(
-                                    fontFamily: 'MontserratBold', fontSize: 20),
-                              ),
-                            )))
-                  ])),
+                            child: Text(
+                              "Đăng nhập",
+                              style: TextStyle(
+                                  fontFamily: 'MontserratBold', fontSize: 20),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ),
+                  Center(
+                    child: TextButton(
+                      child: const Text(
+                        "Đâng ký tài khoản",
+                        style: TextStyle(
+                            fontFamily: "MontserratRegular",
+                            color: Colors.amber),
+                      ),
+                      onPressed: () {
+                        Get.to(const SignUpApp());
+                      },
+                    ),
+                  )
                 ],
               ),
               Positioned(
-                bottom: 0,
-                left: 0,
-                child: GestureDetector(
-                  onTap: () {},
+                  bottom: 0,
+                  left: 0,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(const SplashScreen());
+                    },
                     child: Container(
                       height: 60,
                       width: 60,
@@ -158,10 +181,7 @@ class _LoginAppState extends State<LoginApp> {
                         size: 30,
                       ),
                     ),
-                  )
-
-              )
-
+                  ))
             ],
           )),
     );
