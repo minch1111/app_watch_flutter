@@ -140,7 +140,7 @@ class _BlogPageItemState extends State<BlogPageItem> {
                           ),
                           Expanded(
                               child: Container(
-                            margin: EdgeInsets.only(left: 10),
+                            margin:const EdgeInsets.only(left: 10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,

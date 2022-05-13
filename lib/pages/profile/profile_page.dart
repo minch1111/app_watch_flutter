@@ -1,4 +1,7 @@
+import 'package:example_flutter/pages/profile/profile_page_editUser.dart';
+import 'package:example_flutter/pages/profile/profile_page_orderedList.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 // import 'package:custom_switch/custom_switch.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -20,8 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
             "Thông tin người dùng",
             style: TextStyle(color: Colors.black),
           ),
-          automaticallyImplyLeading: false
-          ),
+          automaticallyImplyLeading: false),
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 40),
         decoration: const BoxDecoration(
@@ -77,7 +79,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           const Spacer(),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(const ProfileEditPage());
+                            },
                             child: const Text(
                               "Chỉnh sửa",
                               style: TextStyle(
@@ -190,32 +194,41 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            // Center(
-            //   child: Container(
-            //     height: 50,
-            //     width: 350,
-            //     padding: const EdgeInsets.symmetric(horizontal: 8),
-            //     alignment: Alignment.centerLeft,
-            //     margin: const EdgeInsets.only(top: 7),
-            //     decoration: const BoxDecoration(
-            //       color: Colors.white,
-            //       borderRadius: BorderRadius.all(
-            //         Radius.circular(5),
-            //       ),
-            //     ),
-            //     child: Row(
-            //       children: const [
-            //         Text("Ngôn ngữ",
-            //             style: TextStyle(
-            //                 fontFamily: 'MontserratBold', fontSize: 18)),
-            //         Spacer(),
-            //         Text("Tiếng Việt",
-            //             style: TextStyle(
-            //                 fontFamily: 'MontserratBold', fontSize: 18))
-            //       ],
-            //     ),
-            //   ),
-            // ),
+            Center(
+              child: Container(
+                height: 50,
+                width: 350,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(top: 7),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    const Text("Lịch sử mua hàng",
+                        style: TextStyle(
+                            fontFamily: 'MontserratBold', fontSize: 18)),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () {
+                        Get.to(const OrderedListPage());
+                      },
+                      child: const Text(
+                        "0 Đơn hàng",
+                        style: TextStyle(
+                            fontFamily: 'MontserratBold',
+                            fontSize: 18,
+                            color: Colors.amber),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

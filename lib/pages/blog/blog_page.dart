@@ -21,11 +21,11 @@ class _BlogPageState extends State<BlogPage> {
             stretch: true,
             expandedHeight: 250,
             title: const Text(
-              'Blogs',
-              // style: TextStyle(color: Colors.black),
+              'Sưu Tầm',
+              style: TextStyle(color: Colors.black),
             ),
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.amber,
+            backgroundColor: Colors.white,
             floating: true,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(

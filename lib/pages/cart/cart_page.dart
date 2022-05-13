@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:example_flutter/pages/home/home_page.dart';
+import 'package:example_flutter/pages/payment/payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -183,8 +184,10 @@ class _CartPageState extends State<CartPage> {
                           ),
                         ),
                       ),
-                      onPressed: () {},
-                      child: Text("Thanh toán"),
+                      onPressed: () {
+                        Get.to(const PaymentPage());
+                      },
+                      child: const Text("Thanh toán"),
                     ),
                   ),
                   TextButton(

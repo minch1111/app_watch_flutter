@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:example_flutter/pages/home/home_controller.dart';
+import 'package:example_flutter/pages/notify/notify_page.dart';
 import 'package:example_flutter/pages/product/product_item.dart';
 import 'package:flutter/material.dart';
 // ignore: unused_import
@@ -111,7 +112,11 @@ class HomeAppState extends State<HomeApp> {
             Stack(
               children: <Widget>[
                 IconButton(
-                    onPressed: () => {},
+                    onPressed: () => {
+                          Get.to(
+                            const NotifyListPage(),
+                          ),
+                        },
                     icon: const Icon(
                       Icons.notifications,
                       color: Colors.black,

@@ -179,21 +179,22 @@ class _SignUpAppState extends State<SignUpApp> {
                       ),
                     )),
                 Center(
-                    child: Column(children: [
-                  DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              Color.fromARGB(255, 255, 216, 97),
-                              Color.fromARGB(255, 255, 191, 0),
-                              Color.fromARGB(255, 209, 159, 6)
-                              //add more colors
-                            ]),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: ElevatedButton(
+                  child: Column(
+                    children: [
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Color.fromARGB(255, 255, 216, 97),
+                                Color.fromARGB(255, 255, 191, 0),
+                                Color.fromARGB(255, 209, 159, 6)
+                                //add more colors
+                              ]),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: Colors.transparent,
                             // shadowColor: Colors.transparent,
@@ -210,8 +211,12 @@ class _SignUpAppState extends State<SignUpApp> {
                               style: TextStyle(
                                   fontFamily: 'MontserratBold', fontSize: 17),
                             ),
-                          )))
-                ])),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
             Positioned(
