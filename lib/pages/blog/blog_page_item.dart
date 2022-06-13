@@ -1,3 +1,4 @@
+import 'package:example_flutter/utils/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -107,7 +108,7 @@ class _BlogPageItemState extends State<BlogPageItem> {
               itemCount: 2,
               itemBuilder: ((context, index) => GestureDetector(
                     onTap: () {
-                      Get.to(const BlogPageItem());
+                      Get.to(const BlogPageItem(),id: AppConstant.BLOG);
                     },
                     child: Container(
                       height: 130,

@@ -1,4 +1,4 @@
-import 'package:example_flutter/LoginApp.dart';
+import 'package:example_flutter/pages/auth/LoginApp.dart';
 import 'package:example_flutter/pages/dashboard/dashboard_page.dart';
 // ignore: unused_import
 import 'package:example_flutter/pages/home/home_page.dart';

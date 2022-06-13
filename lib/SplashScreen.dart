@@ -69,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
             // ignore: prefer_const_literals_to_create_immutables
             children: [
-              const Text("Bạn đã có tài khoản?",style: TextStyle(fontFamily:"MontserratRegular",color: Colors.white)),
+              const Text("Bạn đã có tài khoản????",style: TextStyle(fontFamily:"MontserratRegular",color: Colors.white)),
               const Text("Đăng nhập ngay",style: TextStyle(fontFamily:"MontserratRegular",color: Colors.amber))
             ],
           ),

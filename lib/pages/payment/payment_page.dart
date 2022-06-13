@@ -1,4 +1,7 @@
+import 'package:example_flutter/pages/dashboard/dashboard_page.dart';
+import 'package:example_flutter/pages/home/home_page.dart';
 import 'package:example_flutter/pages/profile/profile_page_editUser.dart';
+import 'package:example_flutter/utils/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -368,7 +371,9 @@ class _PaymentPageState extends State<PaymentPage> {
                 margin: const EdgeInsets.only(bottom: 20),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(primary: Colors.amber),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.offAll(DashboardPage());
+                  },
                   child: const Text(
                     "Thanh toán",
                     style: TextStyle(

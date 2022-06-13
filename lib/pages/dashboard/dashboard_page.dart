@@ -7,6 +7,7 @@ import 'package:example_flutter/pages/product/product_item.dart';
 // import 'package:example_flutter/pages/product/product_item.dart';
 import 'package:example_flutter/pages/product/product_page.dart';
 import 'package:example_flutter/pages/profile/profile_page.dart';
+import 'package:example_flutter/utils/app_constant.dart';
 // import 'package:example_flutter/pages/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,7 +47,7 @@ class DashboardPage extends StatelessWidget {
               ),
               child: CustomNavigationBar(
                 iconSize: 25,
-                isFloating: true,
+                isFloating: false,
                 selectedColor: const Color(0xff040307),
                 strokeColor: const Color(0x30040307),
                 opacity: 1,
@@ -88,13 +89,16 @@ class DashboardPage extends StatelessWidget {
                     // ),
                   ),
                   CustomNavigationBarItem(
-                    icon: Image.asset(
-                      'assets/cart.png',
-                      width: 25,
-                      height: 25,
-                      color: controller.tabIndex.value == 2
-                          ? Colors.black
-                          : const Color(0xffBBBBBB),
+                    icon: Positioned(
+                      // bottom: 20,
+                      child: Image.asset(
+                        'assets/cart.png',
+                        width: 25,
+                        height: 25,
+                        color: controller.tabIndex.value == 2
+                            ? Colors.black
+                            : const Color(0xffBBBBBB),
+                      ),
                     ),
                   ),
                   CustomNavigationBarItem(
@@ -128,6 +132,42 @@ class DashboardPage extends StatelessWidget {
                 ],
                 currentIndex: controller.tabIndex.value,
                 onTap: (index) {
+                  if (index == 0) {
+                    while (Get.nestedKey(AppConstant.HOME)!
+                            .currentState
+                            ?.canPop() ==
+                        true) {
+                      Get.nestedKey(AppConstant.HOME)?.currentState?.pop();
+                    }
+                  } else if (index == 1) {
+                    while (Get.nestedKey(AppConstant.PRODUCT)!
+                            .currentState
+                            ?.canPop() ==
+                        true) {
+                      Get.nestedKey(AppConstant.PRODUCT)?.currentState?.pop();
+                    }
+                  } else if (index == 2) {
+                    while (Get.nestedKey(AppConstant.CART)!
+                            .currentState
+                            ?.canPop() ==
+                        true) {
+                      Get.nestedKey(AppConstant.CART)?.currentState?.pop();
+                    }
+                  } else if (index == 3) {
+                    while (Get.nestedKey(AppConstant.BLOG)!
+                            .currentState
+                            ?.canPop() ==
+                        true) {
+                      Get.nestedKey(AppConstant.BLOG)?.currentState?.pop();
+                    }
+                  } else if (index == 4) {
+                    while (Get.nestedKey(AppConstant.PROFILE)!
+                            .currentState
+                            ?.canPop() ==
+                        true) {
+                      Get.nestedKey(AppConstant.PROFILE)?.currentState?.pop();
+                    }
+                  }
                   controller.tabIndex.value = index;
                 },
               ),
@@ -211,24 +251,24 @@ class DashboardPage extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            bottom: 15,
-            child: SizedBox(
-              height: 70,
-              width: 70,
-              child: SizedBox(
-                  child: ElevatedButton(
-                child: Center(child: Image.asset("assets/cart.png",fit: BoxFit.cover,)),
-                onPressed: () {
-                  Get.to(const CartPage());
-                },
-                style: ElevatedButton.styleFrom(
-                    shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(24),
-                    primary: Colors.amber),
-              )),
-            ),
-          )
+          // Positioned(
+          //   bottom: 15,
+          //   child: SizedBox(
+          //     height: 70,
+          //     width: 70,
+          //     child: SizedBox(
+          //         child: ElevatedButton(
+          //       child: Center(child: Image.asset("assets/cart.png",fit: BoxFit.cover,)),
+          //       onPressed: () {
+          //         Get.to(const CartPage());
+          //       },
+          //       style: ElevatedButton.styleFrom(
+          //           shape: const CircleBorder(),
+          //           padding: const EdgeInsets.all(24),
+          //           primary: Colors.amber),
+          //     )),
+          //   ),
+          // )
         ],
       ),
     );

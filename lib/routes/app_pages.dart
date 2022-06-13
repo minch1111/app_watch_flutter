@@ -22,10 +22,10 @@ class AppPages {
       name: AppRoutes.CART,
       page: ()=> const CartPage(),
     ),
-    GetPage(
-      name: AppRoutes.PRODUCT_DETAIL,
-      page: ()=> const ProductItem(),
-    ),
+    // GetPage(
+    //   name: AppRoutes.PRODUCT_DETAIL,
+    //   page: ()=> ProductItem(item),
+    // ),
 
   ];
 }

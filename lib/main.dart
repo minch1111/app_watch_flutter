@@ -1,6 +1,7 @@
 import 'dart:async';
 // import 'package:example_flutter/pages/product/product_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'routes/app_pages.dart';
 import 'routes/app_routes.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       initialRoute: AppRoutes.SPLASH,
       getPages: AppPages.list,
       debugShowCheckedModeBanner: false,
+      builder: EasyLoading.init(),
     );
   }
 }

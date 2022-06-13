@@ -38,6 +38,14 @@ dependencies:
   get: ^4.6.1
   custom_navigation_bar: ^0.8.2
   bubble_bottom_bar: ^1.2.0
+  dio: ^4.0.6
+  json_annotation: ^4.5.0
+  intl: ^0.17.0
+  flutter_format_money_vietnam: ^0.0.2
+  localstorage: ^4.0.0+1
+  flutter_easyloading: ^3.0.5
+  loading_indicator: ^3.0.3
+  flutter_spinkit: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +57,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  build_runner: ^2.1.11
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
