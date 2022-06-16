@@ -495,16 +495,17 @@ class LoadingPagge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber,
+      backgroundColor: Colors.white,
       body: Center(
         child: SpinKitCircle(
           size: 140,
           itemBuilder: (context, index) {
             final colors = [
-              Colors.amber,
-              Colors.red,
               Colors.blue,
-              Colors.deepPurple
+              Colors.amber,
+              Colors.black,
+              Colors.green,
+              Colors.red,
             ];
             final color = colors[index % colors.length];
             return DecoratedBox(

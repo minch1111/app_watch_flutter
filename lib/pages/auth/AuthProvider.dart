@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:example_flutter/models/dataError400.dart';
 import 'package:example_flutter/models/dataLoginSuccess.dart';
 import 'package:example_flutter/services/testAPI_services.dart';
 import 'package:example_flutter/utils/config.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 abstract class AuthAPIProtocol {
   login({

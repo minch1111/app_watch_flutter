@@ -1,40 +1,52 @@
 // ignore_for_file: file_names
 
-import 'package:example_flutter/pages/auth/LoginController.dart';
-import 'package:example_flutter/pages/auth/SignUpApp.dart';
-import 'package:example_flutter/pages/dashboard/dashboard_page.dart';
-import 'package:example_flutter/pages/splash/splash_page.dart';
+import 'package:example_flutter/pages/dashboard/dashboard_controller.dart';
+import 'package:example_flutter/pages/profile/profileController.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-class LoginApp extends StatefulWidget {
-  const LoginApp({Key? key}) : super(key: key);
+import '../auth/LoginController.dart';
+
+class LoginInProfile extends StatefulWidget {
+  const LoginInProfile({Key? key}) : super(key: key);
 
   @override
-  State<LoginApp> createState() => _LoginAppState();
+  State<LoginInProfile> createState() => _LoginInProfileState();
 }
 
-class _LoginAppState extends State<LoginApp> {
+class _LoginInProfileState extends State<LoginInProfile> {
+  final profileController = Get.put(ProfileController());
+  final dashboardController = Get.put(DashboardController());
   final storage = LocalStorage('token');
   final loginController = LoginController();
   bool isLoading = true;
   bool isHidePassword = true;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      // resizeToAvoidBottomPadding :false,
-      // resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        centerTitle: false,
+        backgroundColor: Colors.black,
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: const Text("Đăng nhập"),
+        actions: <Widget>[
+          Stack(
+            children: <Widget>[
+              IconButton(
+                onPressed: () => {
+                  Get.back(),
+                  // Get.to(const NotifyListPage(), id: AppConstant.HOME),
+                },
+                icon: Image.asset('assets/logoOfficial.png',
+                    fit: BoxFit.fitHeight),
+              ),
+            ],
+          )
+        ],
+      ),
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Container(
@@ -73,7 +85,7 @@ class _LoginAppState extends State<LoginApp> {
                     height: 100,
                   ),
                   Container(
-                    margin: const EdgeInsets.fromLTRB(10, 0, 10, 5),
+                    margin: const EdgeInsets.fromLTRB(20, 0, 10, 5),
                     child: const Text(
                       "Tên tài khoản",
                       style: TextStyle(
@@ -84,10 +96,11 @@ class _LoginAppState extends State<LoginApp> {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: TextField(
                       controller: loginController.account,
-                      keyboardType: TextInputType.multiline,
+                      // keyboardType: TextInputType.multiline,
+                      cursorColor: Colors.white,
                       style: const TextStyle(color: Colors.white),
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
@@ -108,7 +121,7 @@ class _LoginAppState extends State<LoginApp> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.fromLTRB(10, 0, 10, 5),
+                    margin: const EdgeInsets.fromLTRB(20, 0, 10, 5),
                     child: const Text(
                       "Mật khẩu",
                       style: TextStyle(
@@ -119,7 +132,7 @@ class _LoginAppState extends State<LoginApp> {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: TextField(
                       obscureText: isHidePassword,
                       enableSuggestions: false,
@@ -202,13 +215,17 @@ class _LoginAppState extends State<LoginApp> {
                                     ),
                                   },
                                   onSuccess: (data) => {
-                                    // Get.back(),
                                     EasyLoading.dismiss(),
+                                    storage.setItem(
+                                        'token', data.Data?.AccessToken),
+                                    profileController.token =
+                                        data.Data!.AccessToken.toString(),
+                                    Get.back(result: "Ok"),
                                     Get.snackbar(
                                       "",
                                       "",
                                       duration:
-                                          const Duration(milliseconds: 700),
+                                          const Duration(milliseconds: 1000),
                                       titleText: const Text(
                                         "Đăng nhập thành công",
                                         textAlign: TextAlign.center,
@@ -217,16 +234,13 @@ class _LoginAppState extends State<LoginApp> {
                                       colorText: Colors.white,
                                       backgroundColor: Colors.green.shade400,
                                     ),
-                                    storage.setItem(
-                                        'token', data.Data?.AccessToken),
 
-                                    Future.delayed(
-                                      const Duration(seconds: 1),
-                                      () {
-                                        Get.to(
-                                            DashboardPage()); // Prints after 1 second.
-                                      },
-                                    ),
+                                    // Future.delayed(
+                                    //   const Duration(microseconds: 500),
+                                    //   () {
+                                    //     // Get.back(); // Prints after 1 second.
+                                    //   },
+                                    // ),
                                   },
                                   onError: (err) => {
                                     EasyLoading.dismiss(),
@@ -237,8 +251,6 @@ class _LoginAppState extends State<LoginApp> {
                                 );
                                 print(
                                     "tài khoản ${loginController.account.text}, mật khẩu ${loginController.password.text} ");
-                                // ignore: unnecessary_null_comparison
-
                               }
                             },
                             child: const Padding(
@@ -266,41 +278,14 @@ class _LoginAppState extends State<LoginApp> {
                             color: Colors.amber),
                       ),
                       onPressed: () {
-                        Get.to(
-                          const SignUpApp(),
-                        );
+                        // Get.to(
+                        //   const SignUpApp(),
+                        // );
                       },
                     ),
                   ),
                 ],
               ),
-              MediaQuery.of(context).viewInsets.bottom == 0
-                  ? Positioned(
-                      bottom: 0,
-                      left: 0,
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.to(
-                            const SplashScreen(),
-                          );
-                        },
-                        child: Container(
-                          height: 60,
-                          width: 60,
-                          decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(40),
-                              ),
-                              color: Colors.amber),
-                          child: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
-                      ),
-                    )
-                  : const SizedBox()
             ],
           ),
         ),

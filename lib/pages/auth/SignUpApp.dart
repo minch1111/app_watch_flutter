@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:example_flutter/pages/auth/LoginApp.dart';
 import 'package:example_flutter/pages/auth/SignUpController.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class SignUpApp extends StatefulWidget {
@@ -338,34 +339,43 @@ class _SignUpAppState extends State<SignUpApp> {
                                     backgroundColor: Colors.amber.shade500);
                               } else {
                                 signUpController.register(
-                                    signUpController.fullname.text,
-                                    signUpController.username.text,
-                                    signUpController.password.text,
-                                    signUpController.email.text,
-                                    signUpController.phone.text,
-                                    signUpController.address.text,
-                                    beforeSend: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (ctx) => const AlertDialog(
-                                          title: Text("Loading..."),
-                                        ),
-                                      );
-                                    },
-                                    onSuccess: (data) {
-                                      Get.back();
-                                      Get.to(const LoginApp());
-                                      print(data);
-                                    },
-                                    onError: (err) {
-                                      Get.back();
-                                      // print(err);
-                                      Get.snackbar("Oops !", err,
+                                  signUpController.fullname.text,
+                                  signUpController.username.text,
+                                  signUpController.password.text,
+                                  signUpController.email.text,
+                                  signUpController.phone.text,
+                                  signUpController.address.text,
+                                  beforeSend: () {
+                                    EasyLoading.show(
+                                      maskType: EasyLoadingMaskType.black,
+                                    );
+                                  },
+                                  onSuccess: (data) {
+                                    Get.to(const LoginApp());
+                                    Get.snackbar(
+                                      "",
+                                      "",
+                                      duration:
+                                          const Duration(milliseconds: 1000),
+                                      titleText: const Text(
+                                        "Đăng ký thành công",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 15),
+                                      ),
                                       colorText: Colors.white,
-                                      backgroundColor: Colors.red);
-                                    });
+                                      backgroundColor: Colors.green.shade400,
+                                    );
+                                    print(data);
+                                  },
+                                  onError: (err) {
+                                    Get.back();
+                                    // print(err);
+                                    Get.snackbar("Oops !", err,
+                                        colorText: Colors.white,
+                                        backgroundColor: Colors.red);
+                                  },
+                                );
                               }
-
                               print("tài khoản : " +
                                   signUpController.username.text +
                                   " mật khẩu :" +

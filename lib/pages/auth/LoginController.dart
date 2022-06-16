@@ -6,11 +6,7 @@ import 'package:example_flutter/models/dataLoginSuccess.dart';
 import 'package:example_flutter/pages/auth/AuthProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:example_flutter/pages/auth/LoginApp.dart';
-// import 'package:flutter/services.dart';
-// import 'package:path/path.dart'
 import 'package:get/get.dart';
-// import 'package:localstorage/localstorage.dart';
 
 class LoginController extends GetxController {
   final account = TextEditingController();
