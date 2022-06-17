@@ -10,11 +10,23 @@ class ProfileController extends GetxController {
   String token = "";
   final localStorage = LocalStorage("token");
 
+  final infoUser = InfoUserMain.fromJson({}).obs;
+
   @override
   void onInit() {
     // TODO: implement onInit
-    // token = localStorage.getItem("token") ?? "";
-    print("run init");
+    token = localStorage.getItem("token") ?? "";
+    if (token.isEmpty == false) {
+      loadInfoUser(
+          beforeSend: () {},
+          onSuccess: (res) {
+            print("init");
+            infoUser.value = res;
+          },
+          onError: (er) {
+            print("Loi $er");
+          });
+    }
     super.onInit();
   }
 
@@ -32,10 +44,10 @@ class ProfileController extends GetxController {
         beforeSend: () {
           beforeSend();
         },
-        onSuccess: (data){
+        onSuccess: (data) {
           onSuccess(data);
-        } ,
-        onError: (error){
+        },
+        onError: (error) {
           onError(error);
         });
   }

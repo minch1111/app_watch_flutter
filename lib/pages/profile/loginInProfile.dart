@@ -2,6 +2,7 @@
 
 import 'package:example_flutter/pages/dashboard/dashboard_controller.dart';
 import 'package:example_flutter/pages/profile/profileController.dart';
+import 'package:example_flutter/pages/profile/signUpInProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -221,6 +222,21 @@ class _LoginInProfileState extends State<LoginInProfile> {
                                     profileController.token =
                                         data.Data!.AccessToken.toString(),
                                     Get.back(result: "Ok"),
+                                    Future.delayed(
+                                      const Duration(microseconds: 400),
+                                      () {
+                                        profileController.loadInfoUser(
+                                            beforeSend: () {},
+                                            onSuccess: (res) {
+                                              profileController.infoUser.value =
+                                                  res;
+                                            },
+                                            onError: (err) {
+                                              print("looix $err");
+                                            });
+                                        // Get.back(); // Prints after 1 second.
+                                      },
+                                    ),
                                     Get.snackbar(
                                       "",
                                       "",
@@ -234,13 +250,6 @@ class _LoginInProfileState extends State<LoginInProfile> {
                                       colorText: Colors.white,
                                       backgroundColor: Colors.green.shade400,
                                     ),
-
-                                    // Future.delayed(
-                                    //   const Duration(microseconds: 500),
-                                    //   () {
-                                    //     // Get.back(); // Prints after 1 second.
-                                    //   },
-                                    // ),
                                   },
                                   onError: (err) => {
                                     EasyLoading.dismiss(),
@@ -278,9 +287,9 @@ class _LoginInProfileState extends State<LoginInProfile> {
                             color: Colors.amber),
                       ),
                       onPressed: () {
-                        // Get.to(
-                        //   const SignUpApp(),
-                        // );
+                        Get.to(
+                          const SignUpInProfile(),
+                        );
                       },
                     ),
                   ),

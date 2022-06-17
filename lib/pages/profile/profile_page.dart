@@ -7,6 +7,7 @@ import 'package:example_flutter/utils/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:skeletons/skeletons.dart';
 // import 'package:custom_switch/custom_switch.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -27,30 +28,21 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
 
-    if(profileController.token.isEmpty == false){
-      profileController.loadInfoUser(beforeSend: (){
-
-      }, onSuccess: (res){
-        print("user $res");
-      }, onError: (err){
-        print("errUser $err");
-      });
-    }
     // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("token : ${profileController.token.toString()}");
-    if(profileController.token.isEmpty == false){
-      profileController.loadInfoUser(beforeSend: (){
-
-      }, onSuccess: (res){
-        print("user $res");
-      }, onError: (err){
-        print("errUser $err");
-      });
+    if (profileController.token.isEmpty == false) {
+      profileController.loadInfoUser(
+          beforeSend: () {},
+          onSuccess: (res) {
+            print("user $res");
+          },
+          onError: (err) {
+            print("errUser $err");
+          });
     }
     // print(result);
     return Navigator(
@@ -99,123 +91,199 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Center(
-                          child: Container(
-                            height: 200,
-                            width: 350,
-                            alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 10),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5),
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Row(
-                                    children: [
-                                      const Text(
-                                        "Thông tin",
-                                        style: TextStyle(
-                                            fontFamily: 'MontserratBold',
-                                            fontSize: 18),
+                          child: Obx(
+                            () => profileController.infoUser.value.Data != null
+                                ? Container(
+                                    height: 200,
+                                    width: 350,
+                                    alignment: Alignment.centerLeft,
+                                    margin: const EdgeInsets.only(top: 10),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(5),
                                       ),
-                                      const Spacer(),
-                                      TextButton(
-                                        onPressed: () {
-                                          Get.to(const ProfileEditPage());
-                                        },
-                                        child: const Text(
-                                          "Chỉnh sửa",
-                                          style: TextStyle(
-                                              fontFamily: 'MontserratBold',
-                                              fontSize: 13,
-                                              color: Colors.grey),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: Row(
+                                            children: [
+                                              const Text(
+                                                "Thông tin",
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        'MontserratBold',
+                                                    fontSize: 18),
+                                              ),
+                                              const Spacer(),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Get.to(
+                                                      const ProfileEditPage());
+                                                },
+                                                child: const Text(
+                                                  "Chỉnh sửa",
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          'MontserratBold',
+                                                      fontSize: 13,
+                                                      color: Colors.grey),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
+                                        Container(
+                                          height: 2,
+                                          color: Colors.grey.shade300,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(20),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children:  [
+                                                  const Text(
+                                                    "Tên :",
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'MontserratBold',
+                                                        fontSize: 15),
+                                                  ),
+                                                  Text(
+                                                    " ${profileController.infoUser.value.Data?.FullName}",
+                                                    style:const TextStyle(
+                                                        fontFamily:
+                                                            'ElleBaskerVille',
+                                                        fontSize: 15),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children:  [
+                                                  const Text(
+                                                    "Điện thoại :",
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'MontserratBold',
+                                                        fontSize: 15),
+                                                  ),
+                                                  Text(
+                                                    " ${profileController.infoUser.value.Data?.Phone}",
+                                                    style:const TextStyle(
+                                                        fontFamily:
+                                                            'ElleBaskerVille',
+                                                        fontSize: 15),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "Địa chỉ :",
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'MontserratBold',
+                                                        fontSize: 15),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                        "${profileController.infoUser.value.Data?.Location?.Address}, ${profileController.infoUser.value.Data?.Location?.Ward}, ${profileController.infoUser.value.Data?.Location?.District}, ${profileController.infoUser.value.Data?.Location?.Province}",
+                                                        style: const TextStyle(
+                                                          fontFamily:
+                                                              'ElleBaskerVille',
+                                                          fontSize: 15,
+                                                        ),
+                                                        maxLines: 3),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    "Email :",
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'MontserratBold',
+                                                        fontSize: 15),
+                                                  ),
+                                                  Text(
+                                                    "${profileController.infoUser.value.Data?.Email}",
+                                                    style: const TextStyle(
+                                                        fontFamily:
+                                                            'ElleBaskerVille',
+                                                        fontSize: 15),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Container(
+                                    height: 230,
+                                    width: 350,
+                                    alignment: Alignment.centerLeft,
+                                    margin: const EdgeInsets.only(top: 10),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(5),
                                       ),
-                                    ],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: Row(
+                                            children: [
+                                              const Text(
+                                                "Thông tin",
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        'MontserratBold',
+                                                    fontSize: 18),
+                                              ),
+                                              const Spacer(),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Get.to(
+                                                      const ProfileEditPage());
+                                                },
+                                                child: const Text(
+                                                  "Chỉnh sửa",
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          'MontserratBold',
+                                                      fontSize: 13,
+                                                      color: Colors.grey),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 2,
+                                          color: Colors.grey.shade300,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(20),
+                                          child: SkeletonParagraph(
+                                            style: const SkeletonParagraphStyle(
+                                                lines: 4, spacing: 8),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  height: 2,
-                                  color: Colors.grey.shade300,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: const [
-                                          Text(
-                                            "Tên :",
-                                            style: TextStyle(
-                                                fontFamily: 'MontserratBold',
-                                                fontSize: 15),
-                                          ),
-                                          Text(
-                                            " John Terry",
-                                            style: TextStyle(
-                                                fontFamily: 'ElleBaskerVille',
-                                                fontSize: 15),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: const [
-                                          Text(
-                                            "Điện thoại :",
-                                            style: TextStyle(
-                                                fontFamily: 'MontserratBold',
-                                                fontSize: 15),
-                                          ),
-                                          Text(
-                                            " 0909.123.456",
-                                            style: TextStyle(
-                                                fontFamily: 'ElleBaskerVille',
-                                                fontSize: 15),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: const [
-                                          Text(
-                                            "Địa chỉ :",
-                                            style: TextStyle(
-                                                fontFamily: 'MontserratBold',
-                                                fontSize: 15),
-                                          ),
-                                          Text(
-                                            " 90 Phố Hoàng Kiếm,Hà Nội",
-                                            style: TextStyle(
-                                                fontFamily: 'ElleBaskerVille',
-                                                fontSize: 15),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: const [
-                                          Text(
-                                            "Email :",
-                                            style: TextStyle(
-                                                fontFamily: 'MontserratBold',
-                                                fontSize: 15),
-                                          ),
-                                          Text(
-                                            " John123@email.com",
-                                            style: TextStyle(
-                                                fontFamily: 'ElleBaskerVille',
-                                                fontSize: 15),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ),
                         Center(
