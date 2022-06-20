@@ -1,15 +1,27 @@
+import 'package:example_flutter/models/news.dart';
 import 'package:example_flutter/utils/app_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
 class BlogPageItem extends StatefulWidget {
-  const BlogPageItem({Key? key}) : super(key: key);
+  final blog ;
+  const BlogPageItem({Key? key, required this.blog}) : super(key: key);
 
   @override
   State<BlogPageItem> createState() => _BlogPageItemState();
 }
 
 class _BlogPageItemState extends State<BlogPageItem> {
+
+@override
+  void initState() {
+
+    print( widget.blog);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,19 +30,20 @@ class _BlogPageItemState extends State<BlogPageItem> {
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text(
-          "Blog Detail",
+          "Chi tiết blog",
           style: TextStyle(color: Colors.black),
         ),
         // automaticallyImplyLeading: false
       ),
       body: SingleChildScrollView(
+        // controller: ,
         child: Column(
           children: [
             SizedBox(
               height: 200,
               width: double.infinity,
-              child: Image.asset(
-                'assets/bg_blog.png',
+              child: Image.network(
+                '${widget.blog.Thumbnail}',
                 fit: BoxFit.cover,
               ),
             ),
@@ -40,15 +53,15 @@ class _BlogPageItemState extends State<BlogPageItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Blog title",
+                   Text(
+                    "${widget.blog.Title}",
                     style:
-                        TextStyle(fontFamily: 'MontserratBold', fontSize: 30),
+                       const TextStyle(fontFamily: 'MontserratBold', fontSize: 30),
                   ),
                   Row(
-                    children: const [
-                      Icon(Icons.calendar_month),
-                      Text("10:10 - 27/5/2022")
+                    children:  [
+                      const Icon(Icons.calendar_month),
+                      Text(DateFormat("dd/MM/yyyy").format(DateTime.parse(widget.blog.CreatedByTime))),
                     ],
                   ),
                 ],
@@ -76,12 +89,12 @@ class _BlogPageItemState extends State<BlogPageItem> {
               ),
               child: Column(
                 children: [
-                  const Text(
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a typespecimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    style:
-                        TextStyle(fontFamily: "ElleBaskerVille", fontSize: 20),
-                  ),
-                  Image.asset("assets/splashScreen.png"),
+                  Html(data: """${widget.blog.Content}"""),
+                  // const Text(
+                  //   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a typespecimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                  //   style:
+                  //       TextStyle(fontFamily: "ElleBaskerVille", fontSize: 20),
+                  // ),
                 ],
               ),
             ),
@@ -108,7 +121,7 @@ class _BlogPageItemState extends State<BlogPageItem> {
               itemCount: 2,
               itemBuilder: ((context, index) => GestureDetector(
                     onTap: () {
-                      Get.to(const BlogPageItem(),id: AppConstant.BLOG);
+                      // Get.to(const BlogPageItem(),id: AppConstant.BLOG);
                     },
                     child: Container(
                       height: 130,

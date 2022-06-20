@@ -1,10 +1,13 @@
 // ignore_for_file: unnecessary_const
 
+import 'package:example_flutter/pages/cart/cart_controller.dart';
 import 'package:example_flutter/pages/notify/notify_page.dart';
 import 'package:example_flutter/pages/payment/payment_page.dart';
+import 'package:example_flutter/pages/profile/profileController.dart';
 import 'package:example_flutter/utils/app_constant.dart';
 import 'package:flutter/material.dart';
-import 'package:localstorage/localstorage.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
+// import 'package:localstorage/localstorage.dart';
 import 'package:get/get.dart';
 
 class CartPage extends StatefulWidget {
@@ -16,8 +19,32 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   bool value = false;
+  bool change = false;
+  final cartController = Get.put(CartController());
+  // final profileConller = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    // if (profileConller.token.isEmpty == false) {
+    print("run");
+    // cartController.loadCart(
+    //     beforeSend: () {},
+    //     onSuccess: (res) {
+    //       setState(() {
+    //         change = !change;
+    //       });
+    //     },
+    //     onError: (err) {
+    //       print("lỗi cart $err");
+    //     });
+    // }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(cartController.checkCart);
+
     return Navigator(
       key: Get.nestedKey(AppConstant.CART),
       onGenerateRoute: (settings) => MaterialPageRoute(
@@ -79,185 +106,545 @@ class _CartPageState extends State<CartPage> {
                 Column(
                   children: [
                     Expanded(
-                      child: FutureBuilder(
-                        builder: ((context, snapshot) => ListView.builder(
-                              itemCount: 3,
+                        child: Obx(
+                      () => cartController.token.isEmpty == false
+                          ?
+                          //Nếu có token
+                          (
+                              //Check data có value hay k
+                              cartController.cart.value.Data != null
+                                  ? ListView.builder(
+                                      itemCount: cartController.cart.value.Data
+                                          ?.OrderDetails?.length,
+                                      itemBuilder: ((context, index) =>
+                                              CartItem(index: index)
+                                          // Container(
+                                          //       width: double.infinity,
+                                          //       height: 100,
+                                          //       margin: const EdgeInsets.all(10),
+                                          //       // padding: const EdgeInsets.symmetric(vertical: 10),
+                                          //       decoration: const BoxDecoration(
+                                          //         // color: Colors.amber,
+                                          //         borderRadius: BorderRadius.all(
+                                          //           Radius.circular(30),
+                                          //         ),
+                                          //       ),
+                                          //       child: Row(
+                                          //         children: [
+                                          //           Checkbox(
+                                          //               checkColor: Colors.white,
+                                          //               activeColor: Colors.amber,
+                                          //               shape: const RoundedRectangleBorder(
+                                          //                 borderRadius: BorderRadius.all(
+                                          //                   Radius.circular(10.0),
+                                          //                 ),
+                                          //               ),
+                                          //               // shape: OutlinedBorder(side: ),
+                                          //               // side: BorderSide(color: Colors.amber,),
+                                          //               value: value,
+                                          //               onChanged: (bool? newValue) => {
+                                          //                     setState(() {
+                                          //                       value = newValue!;
+                                          //                     }),
+                                          //                   }),
+                                          //           Container(
+                                          //             height: double.infinity,
+                                          //             width: 320,
+                                          //             decoration: BoxDecoration(
+                                          //               color: Colors.white,
+                                          //               borderRadius:
+                                          //                   const BorderRadius.all(
+                                          //                 Radius.circular(20),
+                                          //               ),
+                                          //               boxShadow: [
+                                          //                 BoxShadow(
+                                          //                   color: Colors.black
+                                          //                       .withOpacity(0.2),
+                                          //                   blurRadius: 10.0,
+                                          //                   offset: const Offset(
+                                          //                     0.0, // Move to right 10  horizontally
+                                          //                     5.0, // Move to bottom 10 Vertically
+                                          //                   ),
+                                          //                 ),
+                                          //               ],
+                                          //             ),
+                                          //             child: Row(
+                                          //               // mainAxisAlignment: MainAxisAlignment.center,
+                                          //               crossAxisAlignment:
+                                          //                   CrossAxisAlignment.center,
+                                          //               children: [
+                                          //                 Container(
+                                          //                   padding:
+                                          //                       const EdgeInsets.symmetric(
+                                          //                           horizontal: 10),
+                                          //                   child: Image.asset(
+                                          //                     'assets/ImgSVGSlider.png',
+                                          //                     height: double.infinity,
+                                          //                     fit: BoxFit.cover,
+                                          //                   ),
+                                          //                 ),
+                                          //                 Container(
+                                          //                   margin: const EdgeInsets.only(
+                                          //                       left: 15),
+                                          //                   child: Column(
+                                          //                     crossAxisAlignment:
+                                          //                         CrossAxisAlignment.start,
+                                          //                     mainAxisAlignment:
+                                          //                         MainAxisAlignment.center,
+                                          //                     children: [
+                                          //                       const Text(
+                                          //                         "Rolex",
+                                          //                         style: TextStyle(
+                                          //                             fontFamily:
+                                          //                                 'MontserratExtraBold',
+                                          //                             fontSize: 20),
+                                          //                       ),
+                                          //                       const Text(
+                                          //                         "Price : 1.200.000",
+                                          //                         style: TextStyle(
+                                          //                             fontSize: 15,
+                                          //                             fontFamily:
+                                          //                                 'MontserratBold'),
+                                          //                       ),
+                                          //                       Row(
+                                          //                         children: <Widget>[
+                                          //                           const Text(
+                                          //                             "Số lượng",
+                                          //                             style: TextStyle(
+                                          //                                 fontFamily:
+                                          //                                     'MontserratBold',
+                                          //                                 fontSize: 17),
+                                          //                           ),
+                                          //                           Container(
+                                          //                             width: 30,
+                                          //                             height: 30,
+                                          //                             margin:
+                                          //                                 const EdgeInsets
+                                          //                                         .only(
+                                          //                                     right: 1,
+                                          //                                     left: 2),
+                                          //                             child: ElevatedButton(
+                                          //                               style: ElevatedButton.styleFrom(
+                                          //                                   primary: Colors
+                                          //                                       .black,
+                                          //                                   padding:
+                                          //                                       const EdgeInsets
+                                          //                                           .all(0)),
+                                          //                               onPressed: () {},
+                                          //                               child: const Center(
+                                          //                                   child: Icon(
+                                          //                                       Icons.add)),
+                                          //                             ),
+                                          //                           ),
+                                          //                           const SizedBox(
+                                          //                             width: 30,
+                                          //                             height: 30,
+                                          //                             child: TextField(
+                                          //                               textAlign: TextAlign
+                                          //                                   .center,
+                                          //                               keyboardType:
+                                          //                                   TextInputType
+                                          //                                       .number,
+                                          //                               decoration:
+                                          //                                   InputDecoration(
+                                          //                                 border:
+                                          //                                     InputBorder
+                                          //                                         .none,
+                                          //                                 // enabledBorder: OutlineInputBorder(
+                                          //                                 //   borderSide: BorderSide(
+                                          //                                 //       width: 0, color: Colors.black),
+                                          //                                 // ),
+                                          //                               ),
+                                          //                             ),
+                                          //                           ),
+                                          //                           Container(
+                                          //                             width: 30,
+                                          //                             height: 30,
+                                          //                             margin:
+                                          //                                 const EdgeInsets
+                                          //                                         .only(
+                                          //                                     left: 1),
+                                          //                             child: ElevatedButton(
+                                          //                               style: ElevatedButton.styleFrom(
+                                          //                                   primary: Colors
+                                          //                                       .black,
+                                          //                                   padding:
+                                          //                                       const EdgeInsets
+                                          //                                           .all(0)),
+                                          //                               onPressed: () {},
+                                          //                               child: const Center(
+                                          //                                   child: Icon(Icons
+                                          //                                       .remove)),
+                                          //                             ),
+                                          //                           ),
+                                          //                         ],
+                                          //                       ),
+                                          //                     ],
+                                          //                   ),
+                                          //                 ),
+                                          //               ],
+                                          //             ),
+                                          //           ),
+                                          //         ],
+                                          //       ),
+                                          //     )
+                                          ),
+                                    )
+                                  : ListView.builder(
+                                      itemCount: 0,
+                                      itemBuilder: ((context, index) =>
+                                              CartItem(index: index)
+                                          // Container(
+                                          //       width: double.infinity,
+                                          //       height: 100,
+                                          //       margin: const EdgeInsets.all(10),
+                                          //       // padding: const EdgeInsets.symmetric(vertical: 10),
+                                          //       decoration: const BoxDecoration(
+                                          //         // color: Colors.amber,
+                                          //         borderRadius: BorderRadius.all(
+                                          //           Radius.circular(30),
+                                          //         ),
+                                          //       ),
+                                          //       child: Row(
+                                          //         children: [
+                                          //           Checkbox(
+                                          //               checkColor: Colors.white,
+                                          //               activeColor: Colors.amber,
+                                          //               shape: const RoundedRectangleBorder(
+                                          //                 borderRadius: BorderRadius.all(
+                                          //                   Radius.circular(10.0),
+                                          //                 ),
+                                          //               ),
+                                          //               // shape: OutlinedBorder(side: ),
+                                          //               // side: BorderSide(color: Colors.amber,),
+                                          //               value: value,
+                                          //               onChanged: (bool? newValue) => {
+                                          //                     setState(() {
+                                          //                       value = newValue!;
+                                          //                     }),
+                                          //                   }),
+                                          //           Container(
+                                          //             height: double.infinity,
+                                          //             width: 320,
+                                          //             decoration: BoxDecoration(
+                                          //               color: Colors.white,
+                                          //               borderRadius:
+                                          //                   const BorderRadius.all(
+                                          //                 Radius.circular(20),
+                                          //               ),
+                                          //               boxShadow: [
+                                          //                 BoxShadow(
+                                          //                   color: Colors.black
+                                          //                       .withOpacity(0.2),
+                                          //                   blurRadius: 10.0,
+                                          //                   offset: const Offset(
+                                          //                     0.0, // Move to right 10  horizontally
+                                          //                     5.0, // Move to bottom 10 Vertically
+                                          //                   ),
+                                          //                 ),
+                                          //               ],
+                                          //             ),
+                                          //             child: Row(
+                                          //               // mainAxisAlignment: MainAxisAlignment.center,
+                                          //               crossAxisAlignment:
+                                          //                   CrossAxisAlignment.center,
+                                          //               children: [
+                                          //                 Container(
+                                          //                   padding:
+                                          //                       const EdgeInsets.symmetric(
+                                          //                           horizontal: 10),
+                                          //                   child: Image.asset(
+                                          //                     'assets/ImgSVGSlider.png',
+                                          //                     height: double.infinity,
+                                          //                     fit: BoxFit.cover,
+                                          //                   ),
+                                          //                 ),
+                                          //                 Container(
+                                          //                   margin: const EdgeInsets.only(
+                                          //                       left: 15),
+                                          //                   child: Column(
+                                          //                     crossAxisAlignment:
+                                          //                         CrossAxisAlignment.start,
+                                          //                     mainAxisAlignment:
+                                          //                         MainAxisAlignment.center,
+                                          //                     children: [
+                                          //                       const Text(
+                                          //                         "Rolex",
+                                          //                         style: TextStyle(
+                                          //                             fontFamily:
+                                          //                                 'MontserratExtraBold',
+                                          //                             fontSize: 20),
+                                          //                       ),
+                                          //                       const Text(
+                                          //                         "Price : 1.200.000",
+                                          //                         style: TextStyle(
+                                          //                             fontSize: 15,
+                                          //                             fontFamily:
+                                          //                                 'MontserratBold'),
+                                          //                       ),
+                                          //                       Row(
+                                          //                         children: <Widget>[
+                                          //                           const Text(
+                                          //                             "Số lượng",
+                                          //                             style: TextStyle(
+                                          //                                 fontFamily:
+                                          //                                     'MontserratBold',
+                                          //                                 fontSize: 17),
+                                          //                           ),
+                                          //                           Container(
+                                          //                             width: 30,
+                                          //                             height: 30,
+                                          //                             margin:
+                                          //                                 const EdgeInsets
+                                          //                                         .only(
+                                          //                                     right: 1,
+                                          //                                     left: 2),
+                                          //                             child: ElevatedButton(
+                                          //                               style: ElevatedButton.styleFrom(
+                                          //                                   primary: Colors
+                                          //                                       .black,
+                                          //                                   padding:
+                                          //                                       const EdgeInsets
+                                          //                                           .all(0)),
+                                          //                               onPressed: () {},
+                                          //                               child: const Center(
+                                          //                                   child: Icon(
+                                          //                                       Icons.add)),
+                                          //                             ),
+                                          //                           ),
+                                          //                           const SizedBox(
+                                          //                             width: 30,
+                                          //                             height: 30,
+                                          //                             child: TextField(
+                                          //                               textAlign: TextAlign
+                                          //                                   .center,
+                                          //                               keyboardType:
+                                          //                                   TextInputType
+                                          //                                       .number,
+                                          //                               decoration:
+                                          //                                   InputDecoration(
+                                          //                                 border:
+                                          //                                     InputBorder
+                                          //                                         .none,
+                                          //                                 // enabledBorder: OutlineInputBorder(
+                                          //                                 //   borderSide: BorderSide(
+                                          //                                 //       width: 0, color: Colors.black),
+                                          //                                 // ),
+                                          //                               ),
+                                          //                             ),
+                                          //                           ),
+                                          //                           Container(
+                                          //                             width: 30,
+                                          //                             height: 30,
+                                          //                             margin:
+                                          //                                 const EdgeInsets
+                                          //                                         .only(
+                                          //                                     left: 1),
+                                          //                             child: ElevatedButton(
+                                          //                               style: ElevatedButton.styleFrom(
+                                          //                                   primary: Colors
+                                          //                                       .black,
+                                          //                                   padding:
+                                          //                                       const EdgeInsets
+                                          //                                           .all(0)),
+                                          //                               onPressed: () {},
+                                          //                               child: const Center(
+                                          //                                   child: Icon(Icons
+                                          //                                       .remove)),
+                                          //                             ),
+                                          //                           ),
+                                          //                         ],
+                                          //                       ),
+                                          //                     ],
+                                          //                   ),
+                                          //                 ),
+                                          //               ],
+                                          //             ),
+                                          //           ),
+                                          //         ],
+                                          //       ),
+                                          //     )
+                                          ),
+                                    ))
+                          :
+                          //nếu k có token
+                          ListView.builder(
+                              itemCount: 5,
                               itemBuilder: ((context, index) =>
-                              CartItem()
-                              // Container(
-                              //       width: double.infinity,
-                              //       height: 100,
-                              //       margin: const EdgeInsets.all(10),
-                              //       // padding: const EdgeInsets.symmetric(vertical: 10),
-                              //       decoration: const BoxDecoration(
-                              //         // color: Colors.amber,
-                              //         borderRadius: BorderRadius.all(
-                              //           Radius.circular(30),
-                              //         ),
-                              //       ),
-                              //       child: Row(
-                              //         children: [
-                              //           Checkbox(
-                              //               checkColor: Colors.white,
-                              //               activeColor: Colors.amber,
-                              //               shape: const RoundedRectangleBorder(
-                              //                 borderRadius: BorderRadius.all(
-                              //                   Radius.circular(10.0),
-                              //                 ),
-                              //               ),
-                              //               // shape: OutlinedBorder(side: ),
-                              //               // side: BorderSide(color: Colors.amber,),
-                              //               value: value,
-                              //               onChanged: (bool? newValue) => {
-                              //                     setState(() {
-                              //                       value = newValue!;
-                              //                     }),
-                              //                   }),
-                              //           Container(
-                              //             height: double.infinity,
-                              //             width: 320,
-                              //             decoration: BoxDecoration(
-                              //               color: Colors.white,
-                              //               borderRadius:
-                              //                   const BorderRadius.all(
-                              //                 Radius.circular(20),
-                              //               ),
-                              //               boxShadow: [
-                              //                 BoxShadow(
-                              //                   color: Colors.black
-                              //                       .withOpacity(0.2),
-                              //                   blurRadius: 10.0,
-                              //                   offset: const Offset(
-                              //                     0.0, // Move to right 10  horizontally
-                              //                     5.0, // Move to bottom 10 Vertically
-                              //                   ),
-                              //                 ),
-                              //               ],
-                              //             ),
-                              //             child: Row(
-                              //               // mainAxisAlignment: MainAxisAlignment.center,
-                              //               crossAxisAlignment:
-                              //                   CrossAxisAlignment.center,
-                              //               children: [
-                              //                 Container(
-                              //                   padding:
-                              //                       const EdgeInsets.symmetric(
-                              //                           horizontal: 10),
-                              //                   child: Image.asset(
-                              //                     'assets/ImgSVGSlider.png',
-                              //                     height: double.infinity,
-                              //                     fit: BoxFit.cover,
-                              //                   ),
-                              //                 ),
-                              //                 Container(
-                              //                   margin: const EdgeInsets.only(
-                              //                       left: 15),
-                              //                   child: Column(
-                              //                     crossAxisAlignment:
-                              //                         CrossAxisAlignment.start,
-                              //                     mainAxisAlignment:
-                              //                         MainAxisAlignment.center,
-                              //                     children: [
-                              //                       const Text(
-                              //                         "Rolex",
-                              //                         style: TextStyle(
-                              //                             fontFamily:
-                              //                                 'MontserratExtraBold',
-                              //                             fontSize: 20),
-                              //                       ),
-                              //                       const Text(
-                              //                         "Price : 1.200.000",
-                              //                         style: TextStyle(
-                              //                             fontSize: 15,
-                              //                             fontFamily:
-                              //                                 'MontserratBold'),
-                              //                       ),
-                              //                       Row(
-                              //                         children: <Widget>[
-                              //                           const Text(
-                              //                             "Số lượng",
-                              //                             style: TextStyle(
-                              //                                 fontFamily:
-                              //                                     'MontserratBold',
-                              //                                 fontSize: 17),
-                              //                           ),
-                              //                           Container(
-                              //                             width: 30,
-                              //                             height: 30,
-                              //                             margin:
-                              //                                 const EdgeInsets
-                              //                                         .only(
-                              //                                     right: 1,
-                              //                                     left: 2),
-                              //                             child: ElevatedButton(
-                              //                               style: ElevatedButton.styleFrom(
-                              //                                   primary: Colors
-                              //                                       .black,
-                              //                                   padding:
-                              //                                       const EdgeInsets
-                              //                                           .all(0)),
-                              //                               onPressed: () {},
-                              //                               child: const Center(
-                              //                                   child: Icon(
-                              //                                       Icons.add)),
-                              //                             ),
-                              //                           ),
-                              //                           const SizedBox(
-                              //                             width: 30,
-                              //                             height: 30,
-                              //                             child: TextField(
-                              //                               textAlign: TextAlign
-                              //                                   .center,
-                              //                               keyboardType:
-                              //                                   TextInputType
-                              //                                       .number,
-                              //                               decoration:
-                              //                                   InputDecoration(
-                              //                                 border:
-                              //                                     InputBorder
-                              //                                         .none,
-                              //                                 // enabledBorder: OutlineInputBorder(
-                              //                                 //   borderSide: BorderSide(
-                              //                                 //       width: 0, color: Colors.black),
-                              //                                 // ),
-                              //                               ),
-                              //                             ),
-                              //                           ),
-                              //                           Container(
-                              //                             width: 30,
-                              //                             height: 30,
-                              //                             margin:
-                              //                                 const EdgeInsets
-                              //                                         .only(
-                              //                                     left: 1),
-                              //                             child: ElevatedButton(
-                              //                               style: ElevatedButton.styleFrom(
-                              //                                   primary: Colors
-                              //                                       .black,
-                              //                                   padding:
-                              //                                       const EdgeInsets
-                              //                                           .all(0)),
-                              //                               onPressed: () {},
-                              //                               child: const Center(
-                              //                                   child: Icon(Icons
-                              //                                       .remove)),
-                              //                             ),
-                              //                           ),
-                              //                         ],
-                              //                       ),
-                              //                     ],
-                              //                   ),
-                              //                 ),
-                              //               ],
-                              //             ),
-                              //           ),
-                              //         ],
-                              //       ),
-                              //     )
-                              ),
-                            )),
-                      ),
-                    ),
+                                      CartItem(index: index)
+                                  // Container(
+                                  //       width: double.infinity,
+                                  //       height: 100,
+                                  //       margin: const EdgeInsets.all(10),
+                                  //       // padding: const EdgeInsets.symmetric(vertical: 10),
+                                  //       decoration: const BoxDecoration(
+                                  //         // color: Colors.amber,
+                                  //         borderRadius: BorderRadius.all(
+                                  //           Radius.circular(30),
+                                  //         ),
+                                  //       ),
+                                  //       child: Row(
+                                  //         children: [
+                                  //           Checkbox(
+                                  //               checkColor: Colors.white,
+                                  //               activeColor: Colors.amber,
+                                  //               shape: const RoundedRectangleBorder(
+                                  //                 borderRadius: BorderRadius.all(
+                                  //                   Radius.circular(10.0),
+                                  //                 ),
+                                  //               ),
+                                  //               // shape: OutlinedBorder(side: ),
+                                  //               // side: BorderSide(color: Colors.amber,),
+                                  //               value: value,
+                                  //               onChanged: (bool? newValue) => {
+                                  //                     setState(() {
+                                  //                       value = newValue!;
+                                  //                     }),
+                                  //                   }),
+                                  //           Container(
+                                  //             height: double.infinity,
+                                  //             width: 320,
+                                  //             decoration: BoxDecoration(
+                                  //               color: Colors.white,
+                                  //               borderRadius:
+                                  //                   const BorderRadius.all(
+                                  //                 Radius.circular(20),
+                                  //               ),
+                                  //               boxShadow: [
+                                  //                 BoxShadow(
+                                  //                   color: Colors.black
+                                  //                       .withOpacity(0.2),
+                                  //                   blurRadius: 10.0,
+                                  //                   offset: const Offset(
+                                  //                     0.0, // Move to right 10  horizontally
+                                  //                     5.0, // Move to bottom 10 Vertically
+                                  //                   ),
+                                  //                 ),
+                                  //               ],
+                                  //             ),
+                                  //             child: Row(
+                                  //               // mainAxisAlignment: MainAxisAlignment.center,
+                                  //               crossAxisAlignment:
+                                  //                   CrossAxisAlignment.center,
+                                  //               children: [
+                                  //                 Container(
+                                  //                   padding:
+                                  //                       const EdgeInsets.symmetric(
+                                  //                           horizontal: 10),
+                                  //                   child: Image.asset(
+                                  //                     'assets/ImgSVGSlider.png',
+                                  //                     height: double.infinity,
+                                  //                     fit: BoxFit.cover,
+                                  //                   ),
+                                  //                 ),
+                                  //                 Container(
+                                  //                   margin: const EdgeInsets.only(
+                                  //                       left: 15),
+                                  //                   child: Column(
+                                  //                     crossAxisAlignment:
+                                  //                         CrossAxisAlignment.start,
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment.center,
+                                  //                     children: [
+                                  //                       const Text(
+                                  //                         "Rolex",
+                                  //                         style: TextStyle(
+                                  //                             fontFamily:
+                                  //                                 'MontserratExtraBold',
+                                  //                             fontSize: 20),
+                                  //                       ),
+                                  //                       const Text(
+                                  //                         "Price : 1.200.000",
+                                  //                         style: TextStyle(
+                                  //                             fontSize: 15,
+                                  //                             fontFamily:
+                                  //                                 'MontserratBold'),
+                                  //                       ),
+                                  //                       Row(
+                                  //                         children: <Widget>[
+                                  //                           const Text(
+                                  //                             "Số lượng",
+                                  //                             style: TextStyle(
+                                  //                                 fontFamily:
+                                  //                                     'MontserratBold',
+                                  //                                 fontSize: 17),
+                                  //                           ),
+                                  //                           Container(
+                                  //                             width: 30,
+                                  //                             height: 30,
+                                  //                             margin:
+                                  //                                 const EdgeInsets
+                                  //                                         .only(
+                                  //                                     right: 1,
+                                  //                                     left: 2),
+                                  //                             child: ElevatedButton(
+                                  //                               style: ElevatedButton.styleFrom(
+                                  //                                   primary: Colors
+                                  //                                       .black,
+                                  //                                   padding:
+                                  //                                       const EdgeInsets
+                                  //                                           .all(0)),
+                                  //                               onPressed: () {},
+                                  //                               child: const Center(
+                                  //                                   child: Icon(
+                                  //                                       Icons.add)),
+                                  //                             ),
+                                  //                           ),
+                                  //                           const SizedBox(
+                                  //                             width: 30,
+                                  //                             height: 30,
+                                  //                             child: TextField(
+                                  //                               textAlign: TextAlign
+                                  //                                   .center,
+                                  //                               keyboardType:
+                                  //                                   TextInputType
+                                  //                                       .number,
+                                  //                               decoration:
+                                  //                                   InputDecoration(
+                                  //                                 border:
+                                  //                                     InputBorder
+                                  //                                         .none,
+                                  //                                 // enabledBorder: OutlineInputBorder(
+                                  //                                 //   borderSide: BorderSide(
+                                  //                                 //       width: 0, color: Colors.black),
+                                  //                                 // ),
+                                  //                               ),
+                                  //                             ),
+                                  //                           ),
+                                  //                           Container(
+                                  //                             width: 30,
+                                  //                             height: 30,
+                                  //                             margin:
+                                  //                                 const EdgeInsets
+                                  //                                         .only(
+                                  //                                     left: 1),
+                                  //                             child: ElevatedButton(
+                                  //                               style: ElevatedButton.styleFrom(
+                                  //                                   primary: Colors
+                                  //                                       .black,
+                                  //                                   padding:
+                                  //                                       const EdgeInsets
+                                  //                                           .all(0)),
+                                  //                               onPressed: () {},
+                                  //                               child: const Center(
+                                  //                                   child: Icon(Icons
+                                  //                                       .remove)),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ],
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                 ),
+                                  //               ],
+                                  //             ),
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //     )
+                                  ),
+                            ),
+                    )),
                   ],
                 ),
                 Positioned(
@@ -274,7 +661,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withOpacity(0.5),
                           blurRadius: 12.0,
                           offset: const Offset(
                             -5.0, // Move to right 10  horizontally
@@ -329,7 +716,11 @@ class _CartPageState extends State<CartPage> {
 }
 
 class CartItem extends StatefulWidget {
-  const CartItem({Key? key}) : super(key: key);
+  final index;
+  const CartItem({
+    Key? key,
+    required this.index,
+  }) : super(key: key);
 
   @override
   State<CartItem> createState() => _CartItemState();
@@ -338,13 +729,14 @@ class CartItem extends StatefulWidget {
 class _CartItemState extends State<CartItem> {
   bool value = false;
   int number = 1;
+  final cartController1 = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 100,
-      margin: const EdgeInsets.all(10),
+      height: 150,
+      margin: const EdgeInsets.all(5),
       // padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: const BoxDecoration(
         // color: Colors.amber,
@@ -372,7 +764,7 @@ class _CartItemState extends State<CartItem> {
                   }),
           Container(
             height: double.infinity,
-            width: 320,
+            width: 350,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.all(
@@ -389,85 +781,111 @@ class _CartItemState extends State<CartItem> {
                 ),
               ],
             ),
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Image.asset(
-                    'assets/ImgSVGSlider.png',
-                    height: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Rolex",
-                        style: TextStyle(
-                            fontFamily: 'MontserratExtraBold', fontSize: 20),
-                      ),
-                      const Text(
-                        "Price : 1.200.000",
-                        style: TextStyle(
-                            fontSize: 15, fontFamily: 'MontserratBold'),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          const Text(
-                            "Số lượng",
-                            style: TextStyle(
-                                fontFamily: 'MontserratBold', fontSize: 17),
+            child: Obx(
+              () => cartController1.cart.value.Data != null
+                  ? Row(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 7),
+                          child: Image.network(
+                            cartController1.cart.value.Data!
+                                .OrderDetails![widget.index].Image
+                                .toString(),
+                            height: double.infinity,
+                            fit: BoxFit.contain,
                           ),
-                          Container(
-                            width: 30,
-                            height: 30,
-                            margin: const EdgeInsets.only(right: 1, left: 2),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.amber,
-                                  padding: const EdgeInsets.all(0)),
-                              onPressed: () {
-                                setState(() {
-                                  number += 1;
-                                });
-                              },
-                              child: const Center(child: Icon(Icons.add)),
-                            ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  width: 140,
+                                  // height: 60,
+                                  child: Text(
+                                    "${cartController1.cart.value.Data!.OrderDetails![widget.index].ProductName}",
+                                    style: const TextStyle(
+                                        fontFamily: 'MontserratExtraBold',
+                                        fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "${cartController1.cart.value.Data!.OrderDetails![widget.index].ClassifyProductName}",
+                                style: const TextStyle(
+                                    fontFamily: 'MontserratExtraBold',
+                                    fontSize: 15),
+                              ),
+                              Text(
+                                "Giá : " +
+                                    cartController1.cart.value.Data!
+                                        .OrderDetails![widget.index].Price
+                                        .toVND(unit: "đ"),
+                                style: const TextStyle(
+                                    fontSize: 15, fontFamily: 'MontserratBold'),
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  const Text(
+                                    "Số lượng",
+                                    style: TextStyle(
+                                        fontFamily: 'MontserratBold',
+                                        fontSize: 17),
+                                  ),
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    margin: const EdgeInsets.only(
+                                        right: 1, left: 2),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.amber,
+                                          padding: const EdgeInsets.all(0)),
+                                      onPressed: () {
+                                        setState(() {
+                                          number += 1;
+                                        });
+                                      },
+                                      child:
+                                          const Center(child: Icon(Icons.add)),
+                                    ),
+                                  ),
+                                  Container(
+                                      width: 30,
+                                      height: 30,
+                                      padding: const EdgeInsets.all(5),
+                                      child: Text("$number",
+                                          textAlign: TextAlign.center)),
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    margin: const EdgeInsets.only(left: 1),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.amber,
+                                          padding: const EdgeInsets.all(0)),
+                                      onPressed: () {
+                                        if (number > 0) {
+                                          number -= 1;
+                                        }
+                                      },
+                                      child: const Center(
+                                          child: Icon(Icons.remove)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          Container(
-                            width: 30,
-                            height: 30,
-                            padding:const EdgeInsets.all(5),
-                            child: Text("$number",textAlign: TextAlign.center)
-                          ),
-                          Container(
-                            width: 30,
-                            height: 30,
-                            margin: const EdgeInsets.only(left: 1),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.amber,
-                                  padding: const EdgeInsets.all(0)),
-                              onPressed: () {
-                                if(number >0){
-                                  number -= 1;
-                                }
-                              },
-                              child: const Center(child: Icon(Icons.remove)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                        ),
+                      ],
+                    )
+                  : Container(),
             ),
           ),
         ],

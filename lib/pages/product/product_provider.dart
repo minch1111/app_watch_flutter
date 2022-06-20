@@ -3,9 +3,9 @@ import 'package:example_flutter/models/brandMain.dart';
 import 'package:example_flutter/models/categoryMain.dart';
 import 'package:example_flutter/models/dataDetailMain.dart';
 import 'package:example_flutter/models/dataMainProductAll.dart';
-import 'package:example_flutter/models/dataSearch.dart';
+// import 'package:example_flutter/models/dataSearch.dart';
 import 'package:example_flutter/services/testAPI_services.dart';
-import 'package:example_flutter/utils/app_constant.dart';
+// import 'package:example_flutter/utils/app_constant.dart';
 import 'package:example_flutter/utils/config.dart';
 
 abstract class ProductAPIProtocol {
@@ -43,6 +43,14 @@ abstract class ProductAPIProtocol {
     required Function(dynamic data) onSuccess,
     required Function(dynamic error) onError,
   });
+  createUpdateCart({
+    required Map<String, dynamic> params,
+    required Options option,
+    required Function() beforeSend,
+    required Function(dynamic data) onSuccess,
+    required Function(dynamic error) onError,
+  });
+
 }
 
 class ProductProvider extends ProductAPIProtocol {
@@ -120,6 +128,17 @@ class ProductProvider extends ProductAPIProtocol {
       },
       onError: (error) => {onError(error)},
     );
+  }
+
+  @override
+  createUpdateCart({
+    required Map<String, dynamic> params,
+    required Options option,
+    required Function() beforeSend,
+    required Function(dynamic data) onSuccess,
+    required Function(dynamic error) onError}) {
+    // TODO: implement addToCart
+    throw UnimplementedError();
   }
 
   @override

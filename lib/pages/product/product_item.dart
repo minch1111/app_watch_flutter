@@ -1,4 +1,7 @@
 // ignore_for_file: unrelated_type_equality_checks
+import 'package:example_flutter/pages/cart/cart_controller.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -23,9 +26,10 @@ class _ProductItemState extends State<ProductItem> {
   late int currentPrice = 0;
   late int currentStock = 0;
   final productItemController = Get.put(ProductItemController());
+  final cartController = Get.put(CartController());
   final carouselController1 = CarouselController();
   final carouselController2 = CarouselController();
-  final oCcy = NumberFormat("###.0#", "en_US");
+  final contain = null;
   @override
   void initState() {
     productItemController.loadDetailProduct(
@@ -47,6 +51,7 @@ class _ProductItemState extends State<ProductItem> {
 
   @override
   Widget build(BuildContext context) {
+    print(cartController.cart.value.Data?.OrderDetails?.toList());
     // productItemController.loadDetailProduct(id, beforeSend: beforeSend, onSuccess: onSuccess, onError: onError)
     return isLoading
         ? const LoadingPagge()
@@ -307,14 +312,85 @@ class _ProductItemState extends State<ProductItem> {
                                 margin: const EdgeInsets.only(top: 10),
                                 child: ElevatedButton(
                                   onPressed: () => {
-                                    showDialog(
-                                        context: context,
-                                        builder: (ctx) => const AlertDialog(
-                                              title: Text("Alert Dialog Box"),
-                                              content: Text(
-                                                  "You have raised a Alert Dialog Box"),
-                                              actions: <Widget>[],
-                                            ))
+                                    //check sp đã tồn tại trong giỏ hàng
+                                    cartController.exist = cartController
+                                        .cart.value.Data?.OrderDetails
+                                        ?.any((element) =>
+                                            element.ClassifyProductId ==
+                                            productItemController
+                                                .productDetail
+                                                .value
+                                                .ClassifyProducts?[
+                                                    productItemController
+                                                        .curentValue.value]
+                                                .Id),
+                                    if (cartController.exist == true)
+                                      {
+                                        Get.snackbar("Thông báo",
+                                            "Đã có sản phẩm này trong giỏ hàng của bạn",
+                                            backgroundColor: Colors.amber)
+                                      }
+                                    else
+                                      {
+                                        cartController
+                                                .body.value.ClassifyProductId =
+                                            productItemController
+                                                .productDetail
+                                                .value
+                                                .ClassifyProducts?[
+                                                    productItemController
+                                                        .curentValue.value]
+                                                .Id,
+                                        cartController.body.value
+                                                .ClassifyProductName =
+                                            productItemController
+                                                .productDetail
+                                                .value
+                                                .ClassifyProducts?[
+                                                    productItemController
+                                                        .curentValue.value]
+                                                .Name,
+                                        cartController.body.value.ProductName =
+                                            productItemController
+                                                .productDetail.value.Name,
+                                        cartController.body.value.Count =
+                                            productItemController.numberCart
+                                                .toInt(),
+                                        cartController.body.value.Price =
+                                            productItemController
+                                                .productDetail
+                                                .value
+                                                .ClassifyProducts?[
+                                                    productItemController
+                                                        .curentValue.value]
+                                                .OriginalPrice,
+                                        cartController.createUpdateCart(
+                                            beforeSend: () {
+                                          EasyLoading.show(
+                                            maskType: EasyLoadingMaskType.black,
+                                          );
+                                        }, onSuccess: (res) {
+                                          EasyLoading.dismiss();
+                                          Get.snackbar("Thành công",
+                                              "Đã Thêm vào giỏ hàng",
+                                              backgroundColor: Colors.green);
+                                          cartController.onInit();
+                                          print(res);
+                                        }, onError: (err) {
+                                          EasyLoading.dismiss();
+                                          Get.snackbar("Error", "$err",
+                                              backgroundColor: Colors.red);
+                                          print(err);
+                                        })
+                                      }
+                                    // showDialog(
+                                    //     context: context,
+                                    //     builder: (ctx) => const AlertDialog(
+                                    //           title: Text("Alert Dialog Box"),
+                                    //           content: Text(
+                                    //               "You have raised a Alert Dialog Box"),
+                                    //           actions: <Widget>[],
+                                    //         ))
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.black,
@@ -339,40 +415,45 @@ class _ProductItemState extends State<ProductItem> {
                     margin: const EdgeInsets.only(top: 20, bottom: 30),
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Center(
-                      child: Column(children: [
-                        const Text(
-                          "Giới thiệu",
-                          style: TextStyle(
-                              fontFamily: 'MontserratBold', fontSize: 30),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                              productItemController
-                                          .productDetail.value.BrandName !=
-                                      null
-                                  ? productItemController
-                                      .productDetail.value.BrandName
-                                      .toString()
-                                  : "",
-                              style: const TextStyle(
-                                  fontFamily: 'Colophones',
-                                  fontSize: 110,
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                        Text(
-                          productItemController
-                                      .productDetail.value.Description !=
-                                  null
-                              ? productItemController
-                                  .productDetail.value.Description
-                                  .toString()
-                              : "",
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontFamily: 'ElleBaskerVille', fontSize: 20),
-                        )
-                      ]),
+                      child: Column(
+                        children: [
+                          const Text(
+                            "Giới thiệu",
+                            style: TextStyle(
+                                fontFamily: 'MontserratBold', fontSize: 30),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                                productItemController
+                                            .productDetail.value.BrandName !=
+                                        null
+                                    ? productItemController
+                                        .productDetail.value.BrandName
+                                        .toString()
+                                    : "",
+                                style: const TextStyle(
+                                    fontFamily: 'Colophones',
+                                    fontSize: 110,
+                                    fontWeight: FontWeight.w500)),
+                          ),
+                          Html(
+                              data:
+                                  "${productItemController.productDetail.value.Description}"),
+                          // Text(
+                          //   productItemController
+                          //               .productDetail.value.Description !=
+                          //           null
+                          //       ? productItemController
+                          //           .productDetail.value.Description
+                          //           .toString()
+                          //       : "",
+                          //   textAlign: TextAlign.center,
+                          //   style: const TextStyle(
+                          //       fontFamily: 'ElleBaskerVille', fontSize: 20),
+                          // )
+                        ],
+                      ),
                     ),
                   ),
                   GetBuilder<ProductItemController>(

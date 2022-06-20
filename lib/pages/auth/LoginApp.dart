@@ -219,7 +219,6 @@ class _LoginAppState extends State<LoginApp> {
                                     ),
                                     storage.setItem(
                                         'token', data.Data?.AccessToken),
-
                                     Future.delayed(
                                       const Duration(seconds: 1),
                                       () {

@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:example_flutter/pages/cart/cart_controller.dart';
 import 'package:example_flutter/pages/dashboard/dashboard_controller.dart';
 import 'package:example_flutter/pages/profile/profileController.dart';
 import 'package:example_flutter/pages/profile/signUpInProfile.dart';
@@ -19,7 +20,7 @@ class LoginInProfile extends StatefulWidget {
 
 class _LoginInProfileState extends State<LoginInProfile> {
   final profileController = Get.put(ProfileController());
-  final dashboardController = Get.put(DashboardController());
+  final cartController = Get.put(CartController());
   final storage = LocalStorage('token');
   final loginController = LoginController();
   bool isLoading = true;
@@ -234,7 +235,7 @@ class _LoginInProfileState extends State<LoginInProfile> {
                                             onError: (err) {
                                               print("looix $err");
                                             });
-                                        // Get.back(); // Prints after 1 second.
+                                         cartController.onInit();
                                       },
                                     ),
                                     Get.snackbar(

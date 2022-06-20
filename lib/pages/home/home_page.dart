@@ -4,6 +4,7 @@ import 'package:example_flutter/pages/notify/notify_page.dart';
 import 'package:example_flutter/pages/product/product_item.dart';
 import 'package:example_flutter/utils/app_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
@@ -201,18 +202,25 @@ class HomeAppState extends State<HomeApp> {
                                           Positioned(
                                             top: 55.0,
                                             left: 10.0,
-                                            // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
-                                            child: SizedBox(
-                                              width: 250,
-                                              child: Text(
-                                                item.Content.toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12.0,
-                                                    fontFamily:
-                                                        'ElleBaskerVille'),
-                                              ),
-                                            ),
+                                            child: Container(
+                                                width: 250,
+                                                child: Html(
+                                                    data: """${item.Content}""")
+                                                // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
+                                                // child: SizedBox(
+                                                //   width: 250,
+                                                //   child:
+                                                //   Html(data: """${item.Content}""")
+                                                //   // Text(
+                                                //   //   item.Content.toString(),
+                                                //   //   style: const TextStyle(
+                                                //   //       color: Colors.white,
+                                                //   //       fontSize: 12.0,
+                                                //   //       fontFamily:
+                                                //   //           'ElleBaskerVille'),
+                                                //   // ),
+                                                // ),
+                                                ),
                                           ),
                                           Positioned(
                                               right: 10,

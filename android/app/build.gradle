@@ -46,6 +46,7 @@ android {
         applicationId "com.example.example_flutter"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 20
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

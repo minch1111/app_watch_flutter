@@ -14,13 +14,11 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     token = localStorage.getItem("token") ?? "";
     if (token.isEmpty == false) {
       loadInfoUser(
           beforeSend: () {},
           onSuccess: (res) {
-            print("init");
             infoUser.value = res;
           },
           onError: (er) {

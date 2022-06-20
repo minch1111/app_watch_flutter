@@ -28,23 +28,11 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
 
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (profileController.token.isEmpty == false) {
-      profileController.loadInfoUser(
-          beforeSend: () {},
-          onSuccess: (res) {
-            print("user $res");
-          },
-          onError: (err) {
-            print("errUser $err");
-          });
-    }
-    // print(result);
     return Navigator(
       key: Get.nestedKey(AppConstant.PROFILE),
       onGenerateRoute: (settings) => MaterialPageRoute(
