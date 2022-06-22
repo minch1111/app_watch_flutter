@@ -14,8 +14,15 @@ abstract class CartAPIProtocol {
     required Function(dynamic error) onError,
   });
 
+  deleteAllCart({
+    required String id,
+    required Options option,
+    required Function() beforeSend,
+    required Function(dynamic data) onSuccess,
+    required Function(dynamic error) onError,
+  });
 
-    createUpdateCart({
+  createUpdateCart({
     required Map<String, dynamic> params,
     required Options option,
     required Function() beforeSend,
@@ -23,6 +30,13 @@ abstract class CartAPIProtocol {
     required Function(dynamic error) onError,
   });
 
+  confirmPay({
+    required Map<String, dynamic> params,
+    required Options option,
+    required Function() beforeSend,
+    required Function(dynamic data) onSuccess,
+    required Function(dynamic error) onError,
+  });
 }
 
 class CartProvider extends CartAPIProtocol {
@@ -43,20 +57,59 @@ class CartProvider extends CartAPIProtocol {
   }
 
   @override
-  createUpdateCart({
-    required Map<String, dynamic> params,
-    required Options option,
-    required Function() beforeSend,
-    required Function(dynamic data) onSuccess,
-    required Function(dynamic error) onError}) {
-   ApiService(option: option, params: params,
-    path: API.APIConfig + "order/create"
-   ).post(beforeSend: (){
-    beforeSend();
-   }, onSuccess: (data){
-    onSuccess(data);
-   }, onError: (err){
-    onError(err);
-   });
+  deleteAllCart(
+      {required String id,
+      required Options option,
+      required Function() beforeSend,
+      required Function(dynamic data) onSuccess,
+      required Function(dynamic error) onError}) {
+    ApiService(option: option, path: API.APIConfig + "order/delete/$id").delete(
+        beforeSend: () {
+      beforeSend();
+    }, onSuccess: (data) {
+      onSuccess(data);
+    }, onError: (err) {
+      onError(err);
+    });
+  }
+
+  @override
+  createUpdateCart(
+      {required Map<String, dynamic> params,
+      required Options option,
+      required Function() beforeSend,
+      required Function(dynamic data) onSuccess,
+      required Function(dynamic error) onError}) {
+    ApiService(
+            option: option,
+            params: params,
+            path: API.APIConfig + "order/create")
+        .post(beforeSend: () {
+      beforeSend();
+    }, onSuccess: (data) {
+      onSuccess(data);
+    }, onError: (err) {
+      onError(err);
+    });
+  }
+
+  @override
+  confirmPay(
+      {required Map<String, dynamic> params,
+      required Options option,
+      required Function() beforeSend,
+      required Function(dynamic data) onSuccess,
+      required Function(dynamic error) onError}) {
+    ApiService(
+            option: option,
+            params: params,
+            path: API.APIConfig + "order/confirm-by-user")
+        .post(beforeSend: () {
+      beforeSend();
+    }, onSuccess: (data) {
+      onSuccess(data);
+    }, onError: (err) {
+      onError(err);
+    });
   }
 }

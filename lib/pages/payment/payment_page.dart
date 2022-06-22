@@ -1,7 +1,11 @@
+import 'package:example_flutter/pages/cart/cart_controller.dart';
 import 'package:example_flutter/pages/dashboard/dashboard_page.dart';
 import 'package:example_flutter/pages/home/home_page.dart';
+import 'package:example_flutter/pages/profile/profileController.dart';
 import 'package:example_flutter/pages/profile/profile_page_editUser.dart';
 import 'package:example_flutter/utils/app_constant.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +19,16 @@ class PaymentPage extends StatefulWidget {
 enum SingingCharacter { COD, VNP }
 
 class _PaymentPageState extends State<PaymentPage> {
+  final cartController = Get.put(CartController());
+  final profileController = Get.put(ProfileController());
   SingingCharacter? _character = SingingCharacter.COD;
+  bool isPayment = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,26 +68,30 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 child: Row(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: const [
-                            Text(
-                              "Địa chỉ",
-                              style: TextStyle(
-                                  fontFamily: "MontserratBold", fontSize: 18),
-                            ),
-                            Icon(Icons.location_on),
-                          ],
-                        ),
-                        const Text(
-                          "Nguyễn Hữu Trí",
-                          style: TextStyle(
-                              fontFamily: "MontserratBold", fontSize: 18),
-                        ),
-                        const Text("90 Sư Vạn Hạnh, Quận 10, TP.HCM")
-                      ],
+                    Flexible(
+                      flex: 5,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: const [
+                              Text(
+                                "Địa chỉ",
+                                style: TextStyle(
+                                    fontFamily: "MontserratBold", fontSize: 18),
+                              ),
+                              Icon(Icons.location_on),
+                            ],
+                          ),
+                          Text(
+                            "${profileController.infoUser.value.Data?.FullName}",
+                            style: const TextStyle(
+                                fontFamily: "MontserratBold", fontSize: 18),
+                          ),
+                          Text(
+                              "${profileController.infoUser.value.Data?.Location?.Address}, ${profileController.infoUser.value.Data?.Location?.Ward}, ${profileController.infoUser.value.Data?.Location?.District}, ${profileController.infoUser.value.Data?.Location?.Province}"),
+                        ],
+                      ),
                     ),
                     const Spacer(),
                     SizedBox(
@@ -92,7 +109,7 @@ class _PaymentPageState extends State<PaymentPage> {
               ListView.builder(
                 shrinkWrap: true,
                 primary: false,
-                itemCount: 3,
+                itemCount: cartController.checkedToPay.length,
                 itemBuilder: ((context, index) => GestureDetector(
                       onTap: () =>
                           FocusManager.instance.primaryFocus?.unfocus(),
@@ -124,7 +141,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                 SizedBox(
                                   height: double.infinity,
                                   width: 120,
-                                  child: Image.asset('assets/Account-info.png',
+                                  child: Image.network(
+                                      '${cartController.checkedToPay[index]["Image"]}',
                                       fit: BoxFit.cover),
                                 ),
                                 Expanded(
@@ -135,80 +153,97 @@ class _PaymentPageState extends State<PaymentPage> {
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Text(
-                                        "Rolex Omage III",
-                                        style: TextStyle(
+                                      Text(
+                                        "${cartController.checkedToPay[index]["ProductName"]} - ${cartController.checkedToPay[index]["ClassifyProductName"]}",
+                                        style: const TextStyle(
                                             fontFamily: "MontserratBold",
-                                            fontSize: 20),
+                                            fontSize: 17),
                                       ),
                                       Row(
-                                        children: const [
-                                          Text(
+                                        children: [
+                                          const Text(
                                             "Giá: ",
                                             style: TextStyle(
                                               fontFamily: "MontserratBold",
                                             ),
                                           ),
-                                          Text("3.000.000 đ")
+                                          Text("Giá : " +
+                                              (cartController
+                                                          .checkedToPay[index]
+                                                      ["Price"])
+                                                  .toString()
+                                                  .toVND(unit: "đ"))
                                         ],
                                       ),
                                       Row(
-                                        // ignore: prefer_const_literals_to_create_immutables
-                                        children: <Widget>[
+                                        children: [
                                           const Text(
-                                            "Số lượng",
+                                            "Số lượng: ",
                                             style: TextStyle(
-                                                fontFamily: 'MontserratBold',
-                                                fontSize: 17),
-                                          ),
-                                          Container(
-                                            width: 30,
-                                            height: 30,
-                                            margin: const EdgeInsets.only(
-                                                right: 1, left: 2),
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Colors.black,
-                                                  padding:
-                                                      const EdgeInsets.all(0)),
-                                              onPressed: () {},
-                                              child: const Center(
-                                                  child: Icon(Icons.add)),
+                                              fontFamily: "MontserratBold",
                                             ),
                                           ),
-                                          const SizedBox(
-                                            width: 30,
-                                            height: 30,
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                // enabledBorder: OutlineInputBorder(
-                                                //   borderSide: BorderSide(
-                                                //       width: 0, color: Colors.black),
-                                                // ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 30,
-                                            height: 30,
-                                            margin:
-                                                const EdgeInsets.only(left: 1),
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Colors.black,
-                                                  padding:
-                                                      const EdgeInsets.all(0)),
-                                              onPressed: () {},
-                                              child: const Center(
-                                                  child: Icon(Icons.remove)),
-                                            ),
-                                          ),
+                                          Text(
+                                              "${cartController.checkedToPay[index]["Count"]}")
                                         ],
                                       ),
+                                      // Row(
+                                      //   // ignore: prefer_const_literals_to_create_immutables
+                                      //   children: <Widget>[
+                                      //     const Text(
+                                      //       "Số lượng",
+                                      //       style: TextStyle(
+                                      //           fontFamily: 'MontserratBold',
+                                      //           fontSize: 17),
+                                      //     ),
+                                      //     Container(
+                                      //       width: 30,
+                                      //       height: 30,
+                                      //       margin: const EdgeInsets.only(
+                                      //           right: 1, left: 2),
+                                      //       child: ElevatedButton(
+                                      //         style: ElevatedButton.styleFrom(
+                                      //             primary: Colors.black,
+                                      //             padding:
+                                      //                 const EdgeInsets.all(0)),
+                                      //         onPressed: () {},
+                                      //         child: const Center(
+                                      //             child: Icon(Icons.add)),
+                                      //       ),
+                                      //     ),
+                                      //     const SizedBox(
+                                      //       width: 30,
+                                      //       height: 30,
+                                      //       child: TextField(
+                                      //         textAlign: TextAlign.center,
+                                      //         keyboardType:
+                                      //             TextInputType.number,
+                                      //         decoration: InputDecoration(
+                                      //           border: InputBorder.none,
+                                      //           // enabledBorder: OutlineInputBorder(
+                                      //           //   borderSide: BorderSide(
+                                      //           //       width: 0, color: Colors.black),
+                                      //           // ),
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //     Container(
+                                      //       width: 30,
+                                      //       height: 30,
+                                      //       margin:
+                                      //           const EdgeInsets.only(left: 1),
+                                      //       child: ElevatedButton(
+                                      //         style: ElevatedButton.styleFrom(
+                                      //             primary: Colors.black,
+                                      //             padding:
+                                      //                 const EdgeInsets.all(0)),
+                                      //         onPressed: () {},
+                                      //         child: const Center(
+                                      //             child: Icon(Icons.remove)),
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
                                     ],
                                   ),
                                 ))
@@ -228,9 +263,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 ),
                               ),
                               child: TextButton(
-                                onPressed: () {
-                                  print("object");
-                                },
+                                onPressed: () {},
                                 child: const Text(
                                   "Xoá",
                                   style: TextStyle(color: Colors.white),
@@ -289,6 +322,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         groupValue: _character,
                         onChanged: (SingingCharacter? value) {
                           setState(() {
+                            isPayment = false;
                             _character = value;
                           });
                         },
@@ -317,6 +351,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         groupValue: _character,
                         onChanged: (SingingCharacter? value) {
                           setState(() {
+                            isPayment = true;
                             _character = value;
                           });
                         },
@@ -343,22 +378,22 @@ class _PaymentPageState extends State<PaymentPage> {
                           TextStyle(fontFamily: "MontserratBold", fontSize: 18),
                     ),
                     Row(
-                      children: const [
-                        Text("Số lượng sản phẩm :",
+                      children: [
+                        const Text("Số lượng sản phẩm : ",
                             style: TextStyle(
                                 fontFamily: "MontserratBold", fontSize: 18)),
-                        Text("10",
-                            style: TextStyle(
+                        Text("${cartController.total}",
+                            style: const TextStyle(
                                 fontFamily: "MontserratBold", fontSize: 18)),
                       ],
                     ),
                     Row(
-                      children: const [
-                        Text("Tổng hoá đơn : ",
+                      children: [
+                        const Text("Tổng hoá đơn : ",
                             style: TextStyle(
                                 fontFamily: "MontserratBold", fontSize: 18)),
-                        Text("12.000.000đ",
-                            style: TextStyle(
+                        Text(cartController.totalPrice.toVND(unit: "đ"),
+                            style: const TextStyle(
                                 fontFamily: "MontserratBold", fontSize: 18)),
                       ],
                     ),
@@ -372,7 +407,55 @@ class _PaymentPageState extends State<PaymentPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(primary: Colors.amber),
                   onPressed: () {
-                    Get.offAll(DashboardPage());
+                    cartController.confirmPay(
+                        "${profileController.infoUser.value.Data?.Location?.Province}",
+                        "${profileController.infoUser.value.Data?.Location?.District}",
+                        "${profileController.infoUser.value.Data?.Location?.Ward}",
+                        "${profileController.infoUser.value.Data?.Location?.Address}",
+                        isPayment, beforeSend: () {
+                      EasyLoading.show(
+                        maskType: EasyLoadingMaskType.black,
+                      );
+                    }, onSuccess: (res) {
+                      EasyLoading.dismiss();
+                      if (cartController.checkedToPay.length ==
+                          cartController
+                              .cart.value.Data!.OrderDetails!.length) {
+                        cartController.onInit();
+                        Get.back(result: "Ok");
+                        Get.snackbar(
+                          "Thành công",
+                          "Đặt hàng thành công",
+                          backgroundColor: Colors.green,
+                          duration: const Duration(seconds: 1),
+                        );
+                      } else {
+                        cartController.updateCartAfterPay(
+                            beforeSend: () {},
+                            onSuccess: (res) {
+                              // cartController.onInit();
+                              Get.back(result: "Ok");
+                              Future.delayed(
+                                const Duration(microseconds: 500),
+                                () {
+                                  cartController.onInit();
+                                },
+                              );
+                              Get.snackbar(
+                                "Thành công",
+                                "Đặt hàng thành công",
+                                backgroundColor: Colors.green,
+                                duration: const Duration(seconds: 1),
+                              );
+                            },
+                            onError: (err) {
+                              print(err);
+                            });
+                      }
+                    }, onError: (err) {
+                      EasyLoading.dismiss();
+                      print(err);
+                    });
                   },
                   child: const Text(
                     "Thanh toán",

@@ -69,8 +69,23 @@ class ApiService {
     required Function(dynamic error) onError,
   }) {
     print(path);
+    print("payload :"+ params.toString());
     beforeSend();
     dio.post(path, data: params, options: option).then((res) {
+      onSuccess(res.data);
+    }).catchError((error) {
+      onError(error);
+    });
+  }
+
+  void delete({
+    required Function() beforeSend,
+    required Function(dynamic data) onSuccess,
+    required Function(dynamic error) onError,
+  }) {
+    print(path);
+    beforeSend();
+    dio.delete(path, data: params, options: option).then((res) {
       onSuccess(res.data);
     }).catchError((error) {
       onError(error);
